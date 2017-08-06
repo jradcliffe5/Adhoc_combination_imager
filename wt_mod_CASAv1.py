@@ -14,7 +14,7 @@ print sys.argv
 mode = sys.argv[sys.argv.index('wt_mod_CASAv1.py')+1]
 if mode =='scale':
 	msfile1 = sys.argv[sys.argv.index('wt_mod_CASAv1.py')+2]
-	scaler = float(sys.argv[sys.argv.index('wt_mod_CASAv1.py')+3])
+	scaler = float(sys.argv[sys.argv.index('wt_mod_CASAv1.py')+3])**2
 	print scaler
 	 #this is the square of the rms sensitivities
 	######################################################################
