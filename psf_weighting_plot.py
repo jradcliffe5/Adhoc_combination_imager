@@ -7,17 +7,21 @@ major = []
 minor = []
 weighting = []
 rms = np.array([])
+f = open('combination_information.csv','w')
+f.write('weight,rms,bmaj,bmin,bpa\n')
+f.close()
+f= open('combination_information.csv','a')
 for file in os.listdir('./'):
 	if file.endswith('.psf'):
 		name = file
-		print name[name.find("M")+1:name.find("M1_")]
+		weight2 = name[name.find("M")+1:name.find("M1_")]
 		weighting = weighting + [float(name[name.find("M")+1:name.find("M1_")])]
 		x = imhead(file)
 		minor = minor + [x['restoringbeam']['major']['value']]
 		major = major + [x['restoringbeam']['minor']['value']]
                 rms2 = imstat(imagename=file.split('.psf')[0]+'.image',box='20,20,492,492')['rms']
 		rms = np.append(rms,[rms2])
-                print rms2, x['restoringbeam']['major']['value'],x['restoringbeam']['minor']['value'],x['restoringbeam']['positionangle']['value']
+                f.write(','.join([weight2,str(rms2[0]), str(x['restoringbeam']['major']['value']),str(x['restoringbeam']['minor']['value']),str(x['restoringbeam']['positionangle']['value'])])+'\n')
 
 
 print major, minor, weighting
