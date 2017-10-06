@@ -1,6 +1,6 @@
 import os, sys
 
-scale = [0.05,0.1,0.5,1]
+scale = [0.13]
 
 for i in range(len(scale)):
 	os.system('rsync -ar --progress UV/*ms ./')
