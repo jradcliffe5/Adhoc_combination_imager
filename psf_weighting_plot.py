@@ -14,8 +14,10 @@ f= open('combination_information.csv','a')
 for file in os.listdir('./'):
 	if file.endswith('.psf'):
 		name = file
-		weight2 = name[name.find("M")+1:name.find("M1_")]
-		weighting = weighting + [float(name[name.find("M")+1:name.find("M1_")])]
+		print file
+		weight2 = name[name.find("ms1_")+4:name.find("_ms2_")]
+		print weight2
+		weighting = weighting + [float(name[name.find("ms1_")+4:name.find("_ms2_")])]
 		x = imhead(file)
 		minor = minor + [x['restoringbeam']['major']['value']]
 		major = major + [x['restoringbeam']['minor']['value']]

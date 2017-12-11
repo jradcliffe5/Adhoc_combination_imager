@@ -1,7 +1,7 @@
 name = sys.argv[sys.argv.index('tclean.py')+1]
 
-tclean(vis=['17JUL2015_reway_sc_uvfix_LLRR.ms','merge_merlin_FXPOL.ms'],selectdata=True,field="",spw="",timerange="",uvrange="",\
-antenna="",scan="",observation="",intent="",datacolumn="data",imagename='eM'+name+"M1_psf_CASA",imsize=[512,512],\
+tclean(vis=['merge_vla_FXPOL.ms','merge_merlin_FXPOL.ms'],selectdata=True,field="",spw="",timerange="",uvrange="",\
+antenna="",scan="",observation="",intent="",datacolumn="data",imagename='ms1_'+name+"_ms2_1_psf_CASA",imsize=[512,512],\
 cell=['0.05arcsec'],phasecenter="",stokes="I",projection="SIN",startmodel="",specmode="mfs",reffreq="",\
 nchan=-1,start="",width="",outframe="LSRK",veltype="radio",restfreq=[],interpolation="linear" \
 ,gridder="standard",facets=1,chanchunks=1,wprojplanes=1,vptable="",aterm=True,psterm=False,wbawp=True,\
