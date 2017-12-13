@@ -31,7 +31,7 @@ def headless(inputfile):
                 control[param] = ','.join(valuelist)
     return control
 
-inputs = headless('catalog_inputs.txt')
+inputs = headless('inputs.txt')
 scale = inputs['scale'].split('[')[1].split(']')[0].split(',')
 scale = [float(i) for i in scale]
 print scale
