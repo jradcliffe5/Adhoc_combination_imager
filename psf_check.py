@@ -32,8 +32,9 @@ def headless(inputfile):
     return control
 
 inputs = headless('catalog_inputs.txt')
-
-scale = float(inputs['scale'])
+scale = inputs['scale'].split('[')[1].split(']')[0].split(',')
+scale = [float(i) for i in scale]
+print scale
 path_to_ms = str(inputs['path_to_ms'])
 path_to_casa = str(inputs['path_to_casa'])
 ms1 = str(inputs['ms1'])
