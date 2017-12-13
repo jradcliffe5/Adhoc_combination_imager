@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, re
 
 ### Inputs
 def headless(inputfile):
@@ -42,11 +42,12 @@ ms2 = str(inputs['ms2'])
 
 os.system('rsync -ar --progress %s%s ./' % (path_to_ms,ms2))
 for i in range(len(scale)):
-	os.system('rsync -ar --progress %s%s ./' % (path_to_ms,ms1))
-	for file in os.listdir('./'):
-		if file==ms1:
-			print 'scaling %s by %.2f' % (ms1,scale[i])
-			os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
+    if os.path.exists('%s_%s_%s_1_psf_CASA.psf' % (ms1.split('.ms')[0],name,ms2.split('.ms')[0])) == False:
+    	os.system('rsync -ar --progress %s%s ./' % (path_to_ms,ms1))
+    	for file in os.listdir('./'):
+    		if file==ms1:
+    			print 'scaling %s by %.2f' % (ms1,scale[i])
+    			os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
 
-	os.system('%smpicasa -n 24 %scasa --nologger --log2term -c tclean.py %s %s %s' % (path_to_casa,path_to_casa,str(scale[i]),ms1,ms2))
-	os.system('rm *log')
+    	os.system('%smpicasa -n 24 %scasa --nologger --log2term -c tclean.py %s %s %s' % (path_to_casa,path_to_casa,str(scale[i]),ms1,ms2))
+    	os.system('rm *log')
