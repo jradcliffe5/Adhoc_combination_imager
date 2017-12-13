@@ -1,4 +1,5 @@
-import os, sys, re
+import os, sys
+import re
 
 ### Inputs
 def headless(inputfile):
