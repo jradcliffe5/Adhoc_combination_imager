@@ -1,4 +1,4 @@
-import os
+import os, re
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import numpy as np
@@ -33,9 +33,11 @@ def headless(inputfile):
                 control[param] = ','.join(valuelist)
     return control
 
-inputs = headless('catalog_inputs.txt')
+inputs = headless('inputs.txt')
 
-scale = float(inputs['scale'])
+scale = inputs['scale'].split('[')[1].split(']')[0].split(',')
+scale = [float(i) for i in scale]
+print scale
 path_to_ms = str(inputs['path_to_ms'])
 path_to_casa = str(inputs['path_to_casa'])
 ms1 = str(inputs['ms1'])
@@ -53,16 +55,16 @@ for file in os.listdir('./'):
 	if file.endswith('.psf'):
 		name = file
 		print file
-		weight2 = name[name.find("%s_" ms1.split('.ms')[0])+4:name.find("_%s_" % ms2.split('.ms')[0])]
+                print ms1
+		weight2 = name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2.split('.ms')[0])]
 		print weight2
-		weighting = weighting + [float(name[name.find("%s_" ms1.split('.ms')[0])+4:name.find("_%s_" % ms2.split('.ms')[0])])]
+		weighting = weighting + [float(name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2.split('.ms')[0])])]
 		x = imhead(file)
 		minor = minor + [x['restoringbeam']['major']['value']]
 		major = major + [x['restoringbeam']['minor']['value']]
                 rms2 = imstat(imagename=file.split('.psf')[0]+'.image',box='20,20,492,492')['rms']
 		rms = np.append(rms,[rms2])
                 f.write(','.join([weight2,str(rms2[0]), str(x['restoringbeam']['major']['value']),str(x['restoringbeam']['minor']['value']),str(x['restoringbeam']['positionangle']['value'])])+'\n')
-
 
 print major, minor, weighting
 rms = rms*1E6
