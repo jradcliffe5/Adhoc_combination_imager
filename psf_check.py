@@ -1,9 +1,9 @@
 import os, sys
 
 ### Inputs
-scale = [1]
-path_to_ms = '../'
-path_to_casa = '../casa-release-5.1.1-5.el7/bin/'
+scale = [0.001,0.01,0.1,1,10,100,1000]
+path_to_ms = '~/nas/radcliff/eMERGE/eMERLIN_L_Band/UV_data/eMERGE_DR1_PEELED/'
+path_to_casa = 'casa-release-5.1.1-5.el7/bin/'
 ms1 = 'eMER_L_25JUL2015_UVFIX_PEELED.ms'
 ms2 = 'eMER_L_17JUL2015_UVFIX_PEELED.ms'
 
