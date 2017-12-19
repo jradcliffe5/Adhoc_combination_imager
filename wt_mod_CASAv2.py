@@ -45,6 +45,31 @@ if mode =='scale':
 					t.putcell(colname, j, a)
 		t.close()
 
+elif mode =='scale_concat':
+	wscale = scaler
+	ms2 = float(sys.argv[sys.argv.index('wt_mod_CASAv2.py')+4])
+	output_ms = float(sys.argv[sys.argv.index('wt_mod_CASAv2.py')+5])
+	if(wscale==1.):
+		casalog.post('Will leave the weights for this MS unchanged.', 'INFO')
+	else:
+		casalog.post('Scaling weights for first MS by factor '+str(wscale), 'INFO')
+		t.open(theconcatvis, nomodify=False)
+		for colname in [ 'WEIGHT', 'WEIGHT_SPECTRUM']:
+			if (colname in t.colnames()) and (t.iscelldefined(colname,0)):
+				for j in xrange(0,t.nrows()):
+					a = t.getcell(colname, j)
+					a *= wscale
+					t.putcell(colname, j, a)
+		for colname in ['SIGMA']:
+			if (wscale > 0. and colname in t.colnames()) and (t.iscelldefined(colname,0)):
+				sscale = 1./sqrt(wscale)
+				for j in xrange(0,t.nrows()):
+					a = t.getcell(colname, j)
+					a *= sscale
+					t.putcell(colname, j, a)
+		t.close()
+	concat(vis=[theconcatvis,ms2],concatvis=output_ms)
+
 
 	'''
 	msfile1 = sys.argv[sys.argv.index('wt_mod_CASAv1.py')+2]
