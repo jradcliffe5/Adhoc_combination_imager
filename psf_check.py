@@ -13,6 +13,7 @@ import logging
 
 ### Setup logger
 log_name = "%s.log" % os.path.basename(__file__).split('.py')[0]
+print log_name
 setup_logging_to_file(log_name)
 
 ### Email credentials
