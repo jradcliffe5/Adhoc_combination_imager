@@ -22,6 +22,7 @@ pwd = email_creds['pwd']
 
 try:
     inputs = headless('inputs.txt')
+    logger.info('Input file read successfully')
     scale = inputs['scale'].split('[')[1].split(']')[0].split(',')
     scale = [float(i) for i in scale]
     print scale
@@ -30,18 +31,18 @@ try:
     path_to_casa = str(inputs['path_to_casa'])
     ms1 = str(inputs['ms1'])
     ms2 = str(inputs['ms2'])
+    logger.info('Will scale %s by the following scales: %s' % (ms1, scale))
 
     os.system('rsync -ar --progress %s%s ./' % (path_to_ms2,ms2))
     for i in range(len(scale)):
         if os.path.exists('%s_%s_%s_1_psf_CASA.psf' % (ms1.split('.ms')[0],scale[i],ms2.split('.ms')[0])) == False:
-            print '%s_%s_%s_1_psf_CASA.psf' % (ms1.split('.ms')[0],scale[i],ms2.split('.ms')[0])
-
             os.system('rsync -ar --progress %s%s ./' % (path_to_ms1,ms1))
             for file in os.listdir('./'):
                 if file==ms1:
-                    print 'scaling %s by %.2f' % (ms1,scale[i])
+                    logger.info('Scaling %s by %.2f' % (ms1,scale[i]))
                     os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
 
+            logger.info('Imaging %s (scale %.2f) and %s' % (ms1,scale[i],ms2))
             os.system('%smpicasa -n 49 %scasa --nologger --log2term -c tclean.py %s %s %s' % (path_to_casa,path_to_casa,str(scale[i]),ms1,ms2))
             os.system('rm *log')
     gmail_emailer(user=user,pwd=pwd,recipient='j.f.radcliffe@rug.nl',subject='CODE %s RUN SUCCESSFULLY - %s' % (os.path.basename(__file__),platform.node()),\
