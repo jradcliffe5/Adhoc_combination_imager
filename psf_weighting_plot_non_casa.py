@@ -4,6 +4,7 @@ import os, re, sys, exceptions
 import matplotlib.pyplot as plt
 ### Numerics
 import numpy as np
+import pandas as pd
 from datetime import datetime
 startTime = datetime.now()
 ### For the emailer and logger
@@ -31,19 +32,58 @@ try:
     ms1 = str(inputs['ms1'])
     ms2 = str(inputs['ms2'])
 
-    os.system('rsync -ar --progress %s%s ./' % (path_to_ms2,ms2))
-    for i in range(len(scale)):
-        if os.path.exists('%s_%s_%s_1_psf_CASA.psf' % (ms1.split('.ms')[0],scale[i],ms2.split('.ms')[0])) == False:
-            print '%s_%s_%s_1_psf_CASA.psf' % (ms1.split('.ms')[0],scale[i],ms2.split('.ms')[0])
+    df = pd.read_csv('combination_information_%s_%s.csv' % (ms1.split('.ms')[0],ms2.split('.ms')[0]),delimiter=',')
 
-            os.system('rsync -ar --progress %s%s ./' % (path_to_ms1,ms1))
-            for file in os.listdir('./'):
-                if file==ms1:
-                    print 'scaling %s by %.2f' % (ms1,scale[i])
-                    os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
+    major = df['bmaj']
+    minor = df['bmin']
+    weighting = df['weight']
+    rms = df['rms']
 
-            os.system('%smpicasa -n 49 %scasa --nologger --log2term -c tclean.py %s %s %s' % (path_to_casa,path_to_casa,str(scale[i]),ms1,ms2))
-            os.system('rm *log')
+    print major, minor, weighting
+    rms = rms*1E6
+
+    plt.figure(1)
+    plt.scatter(weighting,minor,c='b',label='minor axis')
+    plt.scatter(weighting,major,c='g',label='major axis')
+    #plt.scatter(xx,yy)
+    plt.xlabel('Multiplicative Weighting Factor (weight)')
+    plt.ylabel('PSF FWHM (arcsec)')
+    plt.xscale('log')
+    plt.legend(loc='upper left')
+    plt.savefig('psf_variation_weight_%s_%s.pdf' % (ms1.split('.ms')[0],ms2.split('.ms')[0]))
+    plt.show()
+
+    plt.figure(2)
+    plt.scatter(weighting,rms,c='b',label='minor axis')
+    #plt.scatter(xx,yy)
+    plt.xlabel('Multiplicative Weighting Factor (weight)')
+    plt.ylabel('rms')
+    plt.xscale('log')
+    #plt.legend(loc='upper left')
+    plt.savefig('rms_variation_weight_%s_%s.pdf' % (ms1.split('.ms')[0],ms2.split('.ms')[0]))
+    plt.show()
+
+    plt.figure(3)
+    plt.scatter(np.sqrt(weighting),minor,c='b',label='minor axis')
+    plt.scatter(np.sqrt(weighting),major,c='g',label='major axis')
+    #plt.scatter(xx,yy)
+    plt.xlabel('Multiplicative Weighting Factor (sigma)')
+    plt.ylabel('PSF FWHM (arcsec)')
+    plt.xscale('log')
+    plt.legend(loc='upper left')
+    plt.savefig('psf_variation_sigma_%s_%s.pdf' % (ms1.split('.ms')[0],ms2.split('.ms')[0]))
+    plt.show()
+
+    plt.figure(4)
+    plt.scatter(np.sqrt(weighting),rms,c='b',label='minor axis')
+    #plt.scatter(xx,yy)
+    plt.xlabel('Multiplicative Weighting Factor (sigma)')
+    plt.ylabel('rms')
+    plt.xscale('log')
+    #plt.legend(loc='upper left')
+    plt.savefig('rms_variation_sigma_%s_%s.pdf' % (ms1.split('.ms')[0],ms2.split('.ms')[0]))
+    plt.show()
+
     gmail_emailer(user=user,pwd=pwd,recipient='j.f.radcliffe@rug.nl',subject='CODE %s RUN SUCCESSFULLY - %s' % (os.path.basename(__file__),platform.node()),\
     body='The code %s has run successfully on %s. \n Please see %s:%s  for the results.\n\n The logger output of %s is as follows:\n\n %s' % (os.path.basename(__file__),datetime.now() - startTime, platform.node(),os.path.dirname(os.path.realpath(__file__)), log_name, open(log_name,'r').read()))
 
