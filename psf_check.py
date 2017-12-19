@@ -43,7 +43,7 @@ try:
                     logging.info('Scaling %s by %.2f' % (ms1,scale[i]))
                     os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
 
-            .info('Imaging %s (scale %.2f) and %s' % (ms1,scale[i],ms2))
+            logging.info('Imaging %s (scale %.2f) and %s' % (ms1,scale[i],ms2))
             os.system('%smpicasa -n 49 %scasa --nologger --log2term -c tclean.py %s %s %s' % (path_to_casa,path_to_casa,str(scale[i]),ms1,ms2))
             os.system('rm *log')
     gmail_emailer(user=user,pwd=pwd,recipient='j.f.radcliffe@rug.nl',subject='CODE %s RUN SUCCESSFULLY - %s' % (os.path.basename(__file__),platform.node()),\
