@@ -6,7 +6,7 @@ import traceback
 import logging
 
 def setup_logging_to_file(filename):
-    logging.basicConfig( filename=filename,
+    logging.basicConfig( filename='./'+filename,
                          filemode='w',
                          level=logging.DEBUG,
                          format= '%(asctime)s - %(levelname)s - %(message)s',

@@ -13,9 +13,9 @@ import logging
 
 ### Setup logger
 log_name = "%s.log" % os.path.basename(__file__).split('.py')[0]
-print log_name
 setup_logging_to_file(log_name)
 logging.info('Beginning %s' % os.path.basename(__file__))
+print 'Beginning %s' % os.path.basename(__file__)
 
 ### Email credentials
 email_creds = headless('mail_passwords.txt')
@@ -46,7 +46,8 @@ try:
 
             logging.info('Imaging %s (scale %.2f) and %s' % (ms1,scale[i],ms2))
             os.system('%smpicasa -n 49 %scasa --nologger --log2term -c tclean.py %s %s %s' % (path_to_casa,path_to_casa,str(scale[i]),ms1,ms2))
-            os.system('rm *log')
+            os.system('rm casa*log')
+
     gmail_emailer(user=user,pwd=pwd,recipient='j.f.radcliffe@rug.nl',subject='CODE %s RUN SUCCESSFULLY - %s' % (os.path.basename(__file__),platform.node()),\
     body='The code %s has run successfully on %s. \n Please see %s:%s  for the results.\n\n The logger output of %s is as follows:\n\n %s' % (os.path.basename(__file__),datetime.now() - startTime, platform.node(),os.path.dirname(os.path.realpath(__file__)), log_name, open(log_name,'r').read()))
 
