@@ -15,6 +15,7 @@ import logging
 log_name = "%s.log" % os.path.basename(__file__).split('.py')[0]
 print log_name
 setup_logging_to_file(log_name)
+logging.info('Beginning %s' % os.path.basename(__file__))
 
 ### Email credentials
 email_creds = headless('mail_passwords.txt')
