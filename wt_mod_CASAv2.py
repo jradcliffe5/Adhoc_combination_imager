@@ -45,10 +45,10 @@ if mode =='scale':
 					t.putcell(colname, j, a)
 		t.close()
 
-elif mode =='scale_concat':
+elif mode =='scaleconcat':
 	wscale = scaler
-	ms2 = float(sys.argv[sys.argv.index('wt_mod_CASAv2.py')+4])
-	output_ms = float(sys.argv[sys.argv.index('wt_mod_CASAv2.py')+5])
+	ms2 = str(sys.argv[sys.argv.index('wt_mod_CASAv2.py')+4])
+	output_ms = str(sys.argv[sys.argv.index('wt_mod_CASAv2.py')+5])
 	if(wscale==1.):
 		casalog.post('Will leave the weights for this MS unchanged.', 'INFO')
 	else:

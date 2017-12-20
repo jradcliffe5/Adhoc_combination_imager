@@ -1,11 +1,11 @@
 ## Input file for the adhoc combination imager
-scale = [4.5]
+scale = [0.001,0.01,0.1,1,10,100,1000]
 path_to_ms1 = '~/nas/radcliff/eMERGE/eMERLIN_L_Band/UV_data/eMERGE_DR1_PEELED/'
 path_to_ms2 = '/scratch/users/radcliff/4_Combine_data/'
 path_to_casa = 'casa-release-5.1.1-5.el7/bin/'
-ms1 = 'eMER_L_MAR2013_UVFIX_PEELED.ms'
-ms2 = 'eMER_L_JUL2015_UVFIX_PEELED.ms'
+ms1 = 'eMER_L_APR2013_UVFIX_PEELED.ms'
+ms2 = 'eMER_L_MAR2013_JUL2015_UVFIX_PEELED_LLRR.ms'
 
 ### for concat_ms.py once weighting has been completed
 scale_proper = 5.0
-output_ms = 'eMER_L_MAR2013_JUL2015_UVFIX_PEELED.ms'
+output_ms = 'eMER_L_MAR2013_JUL2015_UVFIX_PEELED_LLRR.ms'
