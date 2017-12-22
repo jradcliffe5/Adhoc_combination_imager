@@ -33,7 +33,11 @@ if mode =='scale':
 		os.system('rm -r %s.amp%s_adj' % (theconcatvis,wscale))
 		gencal(vis=theconcatvis,caltable='%s.amp%s_adj' % (theconcatvis,wscale),caltype='amp',parameter=[wscale])
 		applycal(vis=theconcatvis,gaintable='%s.amp%s_adj' % (theconcatvis,wscale), applymode='calonly')
-		split(vis=theconcatvis, outputvis=theconcatvis.split('.ms')[0]+'_split.ms')
+		splitname=theconcatvis.split('.ms')[0]+'_split.ms'
+		split(vis=theconcatvis, outputvis=splitname)
 		if delete == 'T':
 			os.system('rm -r %s' % theconcatvis)
-			os.system('mv %s %s' % (theconcatvis.split('.ms')[0]+'_split.ms',theconcatvis))
+			os.system('mv %s %s' % (splitname,theconcatvis))
+		else:
+			clearcal(theconcatvis)
+			os.system('mv %s %s' % (splitname,splitname.split('.ms')[0]+'a%s.ms' % wscale))
