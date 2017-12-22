@@ -25,7 +25,7 @@ scaler = float(sys.argv[sys.argv.index('adjust_amp_CASAv1.py')+4])
 
 
 if mode =='scale':
-	wscale = scaler
+	wscale = 1/np.sqrt(scaler) ## Adjustment is on both amplitudes and casa divides into data so it is inverse
 	if(wscale==1.):
 		casalog.post('Will leave the amplitudes for this MS unchanged.', 'INFO')
 	else:
