@@ -30,9 +30,9 @@ if mode =='scale':
 		casalog.post('Will leave the amplitudes for this MS unchanged.', 'INFO')
 	else:
 		casalog.post('Using gencal to scale amplitudes for first MS by factor '+str(wscale), 'INFO')
-		os.system('rm -r %s.amp%s_adj' % (theconcatvis,wscale))
-		gencal(vis=theconcatvis,caltable='%s.amp%s_adj' % (theconcatvis,wscale),caltype='amp',parameter=[wscale])
-		applycal(vis=theconcatvis,gaintable='%s.amp%s_adj' % (theconcatvis,wscale), applymode='calonly')
+		os.system('rm -r %s.amp%s_adj' % (theconcatvis,scaler))
+		gencal(vis=theconcatvis,caltable='%s.amp%s_adj' % (theconcatvis,scaler),caltype='amp',parameter=[wscale])
+		applycal(vis=theconcatvis,gaintable='%s.amp%s_adj' % (theconcatvis,scaler), applymode='calonly')
 		splitname=theconcatvis.split('.ms')[0]+'_split.ms'
 		split(vis=theconcatvis, outputvis=splitname)
 		if delete == 'T':
@@ -40,4 +40,4 @@ if mode =='scale':
 			os.system('mv %s %s' % (splitname,theconcatvis))
 		else:
 			clearcal(theconcatvis)
-			os.system('mv %s %s' % (splitname,splitname.split('.ms')[0]+'a%s.ms' % wscale))
+			os.system('mv %s %s' % (splitname,splitname.split('.ms')[0]+'a%s.ms' % scaler))
