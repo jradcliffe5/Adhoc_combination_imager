@@ -20,30 +20,20 @@ msfile2_wt_sum = np.sum(tb.getcol('WEIGHT_SPECTRUM'))
 print sys.argv
 mode = sys.argv[sys.argv.index('adjust_amp_CASAv1.py')+1]
 theconcatvis = sys.argv[sys.argv.index('adjust_amp_CASAv1.py')+2]
-scaler = float(sys.argv[sys.argv.index('adjust_amp_CASAv1.py')+3])
+delete = sys.argv[sys.argv.index('adjust_amp_CASAv1.py')+3]
+scaler = float(sys.argv[sys.argv.index('adjust_amp_CASAv1.py')+4])
+
 
 if mode =='scale':
 	wscale = scaler
 	if(wscale==1.):
 		casalog.post('Will leave the amplitudes for this MS unchanged.', 'INFO')
 	else:
-		casalog.post('Scaling amplitudes for first MS by factor '+str(wscale), 'INFO')
-		t.open(theconcatvis, nomodify=False)
-		for colname in ['AMPLITUDE']:
-			if (colname in t.colnames()) and (t.iscelldefined(colname,0)):
-				for j in xrange(0,t.nrows()):
-					a = t.getcell(colname, j)
-					a *= wscale
-					t.putcell(colname, j, a)
-		t.close()
-
-
-elif mode == 'printwt':
-	msfile1 = sys.argv[sys.argv.index('wt_mod_CASAv2.py')+2]
-	print 'mode = printwt, printing sum of gridded weights in '+msfile1
-	tb.open(msfile1)
-	print 'wt sum = '+str(np.sum(tb.getcol('WEIGHT')))
-	tb.close()
-
-else:
-	print 'mode must be printwt or scale'
+		casalog.post('Using gencal to scale amplitudes for first MS by factor '+str(wscale), 'INFO')
+		os.system('rm -r %s.amp%s_adj' % (theconcatvis,wscale))
+		gencal(vis=theconcatvis,caltable='%s.amp%s_adj' % (theconcatvis,wscale),caltype='amp',parameter=[wscale])
+		applycal(vis=theconcatvis,gaintable='%s.amp%s_adj' % (theconcatvis,wscale), applymode='calonly')
+		split(vis=theconcatvis, outputvis=theconcatvis.split('.ms')[0]+'_split.ms')
+		if delete == 'T':
+			os.system('rm -r %s' % theconcatvis)
+			os.system('mv %s %s' % (theconcatvis.split('.ms')[0]+'_split.ms',theconcatvis))
