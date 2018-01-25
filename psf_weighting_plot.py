@@ -35,31 +35,42 @@ def headless(inputfile):
 
 inputs = headless('inputs.txt')
 
-scale = inputs['scale'].split('[')[1].split(']')[0].split(',')
-scale = [float(i) for i in scale]
-print scale
+if ',' in str(inputs['scale']):
+    scale = inputs['scale'].split(',')
+    scale = [float(i) for i in scale]
+else:
+    scale = [float(inputs['scale'])]
+
 path_to_ms1 = str(inputs['path_to_ms1'])
 path_to_ms2 = str(inputs['path_to_ms2'])
 path_to_casa = str(inputs['path_to_casa'])
+if ',' in str(inputs['ms2']):
+    ms2 = inputs['ms2'].split(',')
+    ms2_name = '_'.join([i.split('.ms')[0] for i in ms2])
+    ms2_inp = ' '.join(ms2)
+    print ms2_inp
+else:
+    ms2 = str(inputs['ms2'])
+    ms2name = ms2.split('.ms')[0]
+
 ms1 = str(inputs['ms1'])
-ms2 = str(inputs['ms2'])
 
 major = []
 minor = []
 weighting = []
 rms = np.array([])
-f = open('combination_information_%s_%s.csv' % (ms1.split('.ms')[0],ms2.split('.ms')[0]),'w')
+f = open('combination_information_%s_%s.csv' % (ms1.split('.ms')[0],ms2_name),'w')
 f.write('weight,rms,bmaj,bmin,bpa\n')
 f.close()
-f= open('combination_information_%s_%s.csv' % (ms1.split('.ms')[0],ms2.split('.ms')[0]),'a')
+f= open('combination_information_%s_%s.csv' % (ms1.split('.ms')[0],ms2_name),'a')
 for file in os.listdir('./'):
 	if file.endswith('.psf'):
 		name = file
 		print file
                 print ms1
-		weight2 = name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2.split('.ms')[0])]
+		weight2 = name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2_name)]
 		print weight2
-		weighting = weighting + [float(name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2.split('.ms')[0])])]
+		weighting = weighting + [float(name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2_name)])]
 		x = imhead(file)
 		minor = minor + [x['restoringbeam']['major']['value']]
 		major = major + [x['restoringbeam']['minor']['value']]
@@ -78,7 +89,7 @@ plt.xlabel('Multiplicative Weighting Factor (weight)')
 plt.ylabel('PSF FWHM (arcsec)')
 plt.xscale('log')
 plt.legend(loc='upper left')
-plt.savefig('psf_variation_weight_%s_%s.pdf' % (ms1.split('.ms')[0],ms2.split('.ms')[0]))
+plt.savefig('psf_variation_weight_%s_%s.pdf' % (ms1.split('.ms')[0],ms2_name))
 plt.clf()
 
 plt.figure(2)
@@ -88,7 +99,7 @@ plt.xlabel('Multiplicative Weighting Factor (weight)')
 plt.ylabel('rms')
 plt.xscale('log')
 #plt.legend(loc='upper left')
-plt.savefig('rms_variation_weight_%s_%s.pdf' % (ms1.split('.ms')[0],ms2.split('.ms')[0]))
+plt.savefig('rms_variation_weight_%s_%s.pdf' % (ms1.split('.ms')[0],ms2_name))
 plt.clf()
 
 plt.figure(3)
@@ -99,7 +110,7 @@ plt.xlabel('Multiplicative Weighting Factor (sigma)')
 plt.ylabel('PSF FWHM (arcsec)')
 plt.xscale('log')
 plt.legend(loc='upper left')
-plt.savefig('psf_variation_sigma_%s_%s.pdf' % (ms1.split('.ms')[0],ms2.split('.ms')[0]))
+plt.savefig('psf_variation_sigma_%s_%s.pdf' % (ms1.split('.ms')[0],ms2_name))
 plt.clf()
 
 plt.figure(4)
@@ -109,5 +120,5 @@ plt.xlabel('Multiplicative Weighting Factor (sigma)')
 plt.ylabel('rms')
 plt.xscale('log')
 #plt.legend(loc='upper left')
-plt.savefig('rms_variation_sigma_%s_%s.pdf' % (ms1.split('.ms')[0],ms2.split('.ms')[0]))
+plt.savefig('rms_variation_sigma_%s_%s.pdf' % (ms1.split('.ms')[0],ms2_name))
 plt.clf()

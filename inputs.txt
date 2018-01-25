@@ -1,10 +1,10 @@
 ## Input file for the adhoc combination imager
-scale = 1
-path_to_ms1 = './UV1/'
-path_to_ms2 = './UV2/'
+scale = 10,100,1000,10000
+path_to_ms1 = '~/nas/radcliff/eMERGE/archival_MERLIN_VLA/UV/'
+path_to_ms2 = './'
 path_to_casa = 'casa-release-5.1.1-5.el7/bin/'
-ms1 = uv1.ms  ### data to be scaled
-ms2 = uv2.ms, uv3.ms ### data to remain the same
+ms1 = merge_vla_FXPOL.ms  ### data to be scaled
+ms2 = eMER_L_DR1_PEELED_AMPCOR_LLRR.ms, merge_merlin_FXPOL_reweigh.ms ### data to remain the same
 
 ### for concat_ms.py once weighting has been completed
 scale_proper = 5.0
