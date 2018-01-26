@@ -1,11 +1,31 @@
 ## Input file for the adhoc combination imager
-scale = 10,100,1000,10000
+scale = 1700,2000,3000
 path_to_ms1 = '~/nas/radcliff/eMERGE/archival_MERLIN_VLA/UV/'
 path_to_ms2 = './'
 path_to_casa = 'casa-release-5.1.1-5.el7/bin/'
 ms1 = merge_vla_FXPOL.ms  ### data to be scaled
 ms2 = eMER_L_DR1_PEELED_AMPCOR_LLRR.ms, merge_merlin_FXPOL_reweigh.ms ### data to remain the same
+ncore = 40
 
 ### for concat_ms.py once weighting has been completed
 scale_proper = 5.0
 output_ms = 'eMER_L_MAR2013_JUL2015_UVFIX_PEELED_LLRR.ms'
+
+### For wsclean_MFS_Imager
+wsclean_loc = '/scratch/users/radcliff/wsclean-2.5/build/wsclean'
+wsclean_scale = 1200
+cell = 0.045 ## in arcsec
+imsize = 15 ## in arcmins
+mem = 40 ##percentage memory
+niter = 100000
+gain = 0.1
+mgain = 0.85
+do_MFS = False
+auto_threshold = 1
+channels_out = 8
+deconvolution_channels = 8
+nterms = 2
+bmaj = 0.269754648209
+bmin = 0.182585418224
+bpa = -23.0464668274
+weight = 'natural'
