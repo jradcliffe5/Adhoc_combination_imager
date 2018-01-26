@@ -57,7 +57,7 @@ try:
     ms1 = str(inputs['ms1'])
     ms2 = str(inputs['ms2'])
     logging.info('Will scale %s by the following scales: %s' % (ms1, scale))
-    '''
+    
     os.system('rsync -ar --progress %s%s ./' % (path_to_ms2,ms2))
     for i in range(len(scale)):
         if os.path.exists('%s_%s_%s_1_psf_CASA.psf' % (ms1.split('.ms')[0],scale[i],ms2.split('.ms')[0])) == False:
@@ -66,7 +66,7 @@ try:
                 if file==ms1:
                     logging.info('Scaling %s by %.2f' % (ms1,scale[i]))
                     os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
-    '''
+    
     logging.info('Running wsclean')
     if bpa < 0:
         bpa = 360+bpa ## command line entry does not accept negatives
