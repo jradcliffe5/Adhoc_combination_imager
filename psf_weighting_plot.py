@@ -64,19 +64,19 @@ f.write('weight,rms,bmaj,bmin,bpa\n')
 f.close()
 f= open('combination_information_%s_%s.csv' % (ms1.split('.ms')[0],ms2_name),'a')
 for file in os.listdir('./'):
-	if file.endswith('.psf'):
-		name = file
-		print file
-                print ms1
-		weight2 = name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2_name)]
-		print weight2
-		weighting = weighting + [float(name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2_name)])]
-		x = imhead(file)
-		minor = minor + [x['restoringbeam']['major']['value']]
-		major = major + [x['restoringbeam']['minor']['value']]
-                rms2 = imstat(imagename=file.split('.psf')[0]+'.image',box='20,20,492,492')['rms']
-		rms = np.append(rms,[rms2])
-                f.write(','.join([weight2,str(rms2[0]), str(x['restoringbeam']['major']['value']),str(x['restoringbeam']['minor']['value']),str(x['restoringbeam']['positionangle']['value'])])+'\n')
+    if file.endswith('.psf'):
+        name = file
+        print file
+        print ms1
+        weight2 = name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2_name)]
+        print weight2
+        weighting = weighting + [float(name[name.find("%s_" % ms1.split('.ms')[0])+(len(ms1.split('.ms')[0])+1):name.find("_%s_" % ms2_name)])]
+        x = imhead(file)
+        minor = minor + [x['restoringbeam']['major']['value']]
+        major = major + [x['restoringbeam']['minor']['value']]
+        rms2 = imstat(imagename=file.split('.psf')[0]+'.image',box='20,20,492,492')['rms']
+        rms = np.append(rms,[rms2])
+        f.write(','.join([weight2,str(rms2[0]), str(x['restoringbeam']['major']['value']),str(x['restoringbeam']['minor']['value']),str(x['restoringbeam']['positionangle']['value'])])+'\n')
 
 print major, minor, weighting
 rms = rms*1E6
@@ -121,4 +121,15 @@ plt.ylabel('rms')
 plt.xscale('log')
 #plt.legend(loc='upper left')
 plt.savefig('rms_variation_sigma_%s_%s.pdf' % (ms1.split('.ms')[0],ms2_name))
+plt.clf()
+
+plt.figure(5)
+plt.scatter(rms,minor,c='b',label='minor axis')
+plt.scatter(rms,major,c='g',label='major axis')
+#plt.scatter(xx,yy)
+plt.xlabel('rms / $\mu$Jy/b')
+plt.ylabel('PSF FWHM (arcsec)')
+plt.xscale('log')
+plt.legend(loc='upper left')
+plt.savefig('psf_variation_rms_%s_%s.pdf' % (ms1.split('.ms')[0],ms2_name))
 plt.clf()
