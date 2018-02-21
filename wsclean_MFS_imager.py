@@ -43,6 +43,7 @@ try:
     bmin = float(inputs['bmin'])
     bpa = float(inputs['bpa'])
     weight = str(inputs['weight'])
+    do_scale = str(inputs['do_scale'])
     ################
 
     #df = pd.read_csv('combination_information.csv')
@@ -60,7 +61,7 @@ try:
         ms2_inp = ' '.join(ms2)
     else:
         ms2 = str(inputs['ms2'])
-        ms2name = ms2.split('.ms')[0]
+        ms2_name = ms2.split('.ms')[0]
 
     ms1 = str(inputs['ms1'])
     logging.info('Will scale %s by the following scales: %s' % (ms1, scale))
@@ -71,11 +72,12 @@ try:
     else:
         os.system('rsync -ar --progress %s%s ./' % (path_to_ms2,ms2))
     for i in range(len(scale)):
-        os.system('rsync -ar --progress %s%s ./' % (path_to_ms1,ms1))
-        for file in os.listdir('./'):
-            if file==ms1:
-                logging.info('Scaling %s by %.2f' % (ms1,scale[i]))
-                os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
+        if do_scale == 'True':
+            os.system('rsync -ar --progress %s%s ./' % (path_to_ms1,ms1))
+            for file in os.listdir('./'):
+                if file==ms1:
+                    logging.info('Scaling %s by %.2f' % (ms1,scale[i]))
+                    os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
 
     logging.info('Running wsclean')
     if bpa < 0:
