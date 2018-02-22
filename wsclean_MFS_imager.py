@@ -45,7 +45,13 @@ try:
     weight = str(inputs['weight'])
     do_scale = str(inputs['do_scale'])
     do_multiscale = str(inputs['do_multiscale'])
+    multi_scale_scales = str(inputs['multi_scale_scales'])
     ################
+
+    if len(multi_scale_scales) == 0:
+        multi_scale_scales = ''
+    else:
+        multi_scale_scales = '-multiscale-scales %s' % multi_scale_scales
 
     #df = pd.read_csv('combination_information.csv')
     size_scale = int(imsize*60.*(1./cell))
@@ -85,13 +91,22 @@ try:
         bpa = 360+bpa ## command line entry does not accept negatives
 
     if do_MFS == 'True':
-        logging.info('wsclean inputs = %s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg -join-channels -channels-out %s -deconvolution-channels %s -fit-spectral-pol %s %s %s' % (wsclean_loc, mem, ncore,'%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, channels_out, deconvolution_channels, nterms, ms1, ms2_inp))
-        os.system('%s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg -join-channels -channels-out %s -deconvolution-channels %s -fit-spectral-pol %s %s %s' % (wsclean_loc,mem, ncore, '%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, channels_out, deconvolution_channels, nterms, ms1, ms2_inp))
+        if do_multiscale == 'True':
+            logging.info('wsclean inputs = %s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg -join-channels -channels-out %s -deconvolution-channels %s -fit-spectral-pol %s -multiscale %s %s %s' % (wsclean_loc, mem, ncore,'%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, channels_out, deconvolution_channels, nterms, multi_scale_scales, ms1, ms2_inp))
+            os.system('%s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg -join-channels -channels-out %s -deconvolution-channels %s -fit-spectral-pol %s -multiscale %s %s %s' % (wsclean_loc,mem, ncore, '%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, channels_out, deconvolution_channels, nterms, multi_scale_scales, ms1, ms2_inp))
+        else:
+            logging.info('wsclean inputs = %s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg -join-channels -channels-out %s -deconvolution-channels %s -fit-spectral-pol %s %s %s' % (wsclean_loc, mem, ncore,'%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, channels_out, deconvolution_channels, nterms, ms1, ms2_inp))
+            os.system('%s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg -join-channels -channels-out %s -deconvolution-channels %s -fit-spectral-pol %s %s %s' % (wsclean_loc,mem, ncore, '%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, channels_out, deconvolution_channels, nterms, ms1, ms2_inp))
         logging.info('COMPLETE... a shiny image is made')
     else:
-        logging.info('wsclean inputs = %s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg  %s %s' % (wsclean_loc, mem, ncore,'%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, ms1, ms2_inp))
-        os.system('%s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg %s %s' % (wsclean_loc,mem, ncore, '%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, ms1, ms2_inp))
-        logging.info('COMPLETE... a shiny image is made')
+        if do_multiscale == 'True':
+            logging.info('wsclean inputs = %s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg -multiscale %s %s %s' % (wsclean_loc, mem, ncore,'%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa,multi_scale_scales, ms1, ms2_inp))
+            os.system('%s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg -multiscale %s %s %s' % (wsclean_loc,mem, ncore, '%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa,multi_scale_scales, ms1, ms2_inp))
+            logging.info('COMPLETE... a shiny image is made')
+        else:
+            logging.info('wsclean inputs = %s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg %s %s' % (wsclean_loc, mem, ncore,'%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, ms1, ms2_inp))
+            os.system('%s -mem %d -j %d -name %s -size %d %d -scale %sasec -weight %s -gain %.2f -mgain %.2f -auto-threshold %.1f -niter %s -beam-shape %sasec %sasec %sdeg %s %s' % (wsclean_loc,mem, ncore, '%s_%s_%s_1.wsclean' % (ms1.split('.ms')[0],scale[i],ms2_name), size_scale,size_scale,cell, weight, gain, mgain, auto_threshold, niter, bmaj, bmin, bpa, ms1, ms2_inp))
+            logging.info('COMPLETE... a shiny image is made')
 
     gmail_emailer(user=user,pwd=pwd,recipient='j.f.radcliffe@rug.nl',subject='CODE %s RUN SUCCESSFULLY - %s' % (os.path.basename(__file__),platform.node()),\
     body='The code %s has run successfully on %s. \n Please see %s:%s  for the results.\n\n The logger output of %s is as follows:\n\n %s' % (os.path.basename(__file__),datetime.now() - startTime, platform.node(),os.path.dirname(os.path.realpath(__file__)), log_name, open(log_name,'r').read()))

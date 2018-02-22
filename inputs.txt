@@ -30,3 +30,5 @@ bmaj = 0.27990192174912004
 bmin = 0.262289732694624
 bpa =  83.68984985352
 weight = 'natural'
+do_multiscale = True
+multi_scale_scales = 3,5,10,15,20,40,60,100,500,1000
