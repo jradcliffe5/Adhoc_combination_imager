@@ -44,6 +44,7 @@ try:
     bpa = float(inputs['bpa'])
     weight = str(inputs['weight'])
     do_scale = str(inputs['do_scale'])
+    do_multiscale = str(inputs['do_multiscale'])
     ################
 
     #df = pd.read_csv('combination_information.csv')
