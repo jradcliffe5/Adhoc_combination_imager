@@ -1,11 +1,13 @@
 ## Input file for the adhoc combination imager
-scale = 3000
-path_to_ms1 = '~/nas/radcliff/eMERGE/JVLA_A_Calibrated_UV/UV/JVLA2011/combined/'
-path_to_ms2 = './'
+scale = 0.4,0.6,0.8
+path_to_ms1 = '~/nas/radcliff/eMERGE/eMERLIN_L_Band/UV_data/eMERGE_DR1_REWEIGHTED/'
+path_to_ms2 = '~/nas/radcliff/eMERGE/eMERLIN_L_Band/UV_data/eMERGE_DR1_REWEIGHTED/'
 path_to_casa = 'casa-release-5.1.2-4.el7/bin/'
-ms1 = JVLA_all_uvfix.ms  ### data to be scaled
-ms2 = eMER_L_DR1_PEELED_AMPCOR_LLRR.ms, merge_merlin_FXPOL_reweigh.ms, merge_vla_FXPOL_reweigh.ms ### data to remain the same
+ms1 = JVLA_eMERGE_DR1_LLRR_averaged_all_uvfix_tophs.ms  ### data to be scaled
+ms2 = emerge_vla_FXPOL_reweigh.ms,emerge_merlin_FXPOL_reweigh.ms, emerge_emerlin_peeled_reweigh.ms  ### data to remain the same
 ncore = 40
+psf_cell = 0.005 ##psf evaulation cell size [arcsec]
+psf_imsize = 2800 ## psf evaulation imsize [pix]
 
 ### for concat_ms.py once weighting has been completed
 scale_proper = 5.0
@@ -13,12 +15,12 @@ output_ms = 'eMER_L_MAR2013_JUL2015_UVFIX_PEELED_LLRR.ms'
 
 ### For wsclean_MFS_Imager
 wsclean_loc = '/scratch/users/radcliff/wsclean-2.5/build/wsclean'
-do_scale = False
-wsclean_scale = 4000
+do_scale = True
+wsclean_scale = 1
 cell = 0.045 ## in arcsec
 imsize = 15 ## in arcmins
 mem = 100 ##percentage memory
-niter = 150000
+niter = 1500000
 gain = 0.1
 mgain = 0.85
 do_MFS = True
@@ -26,9 +28,9 @@ auto_threshold = 1.5
 channels_out = 8
 deconvolution_channels = 8
 nterms = 2
-bmaj = 0.27990192174912004
-bmin = 0.262289732694624
-bpa =  83.68984985352
+bmaj = 0.279934257269
+bmin = 0.262319713831
+bpa =  83.691947937
 weight = 'natural'
 do_multiscale = True
-multi_scale_scales = 3,5,10,15,20,40,60,100,500,1000
+multi_scale_scales = 4,40,90
