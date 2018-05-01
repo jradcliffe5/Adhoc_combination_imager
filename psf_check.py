@@ -48,6 +48,8 @@ try:
     logging.info('Will scale %s by the following scales: %s' % (ms1, scale))
     cellsize = str(inputs['psf_cell'])+'arcsec'
     imsize = str(int(inputs['psf_imsize']))
+    phase_center = ' '.join(inputs['phase_center'].split(','))
+    print phase_center
 
     if len(list(ms2)) > 1:
         for i in ms2:
@@ -63,7 +65,7 @@ try:
                     os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
 
             logging.info('Imaging %s (scale %.2f) and %s' % (ms1,scale[i],ms2_inp))
-            os.system('%smpicasa -n %s %scasa --nologger --log2term -c tclean.py %s %s %s %s %s' % (path_to_casa, ncore, path_to_casa,cellsize,imsize,str(scale[i]),ms1,ms2_inp))
+            os.system('%smpicasa -n %s %scasa --nologger --log2term -c tclean.py %s %s \'%s\' %s %s %s' % (path_to_casa, ncore, path_to_casa,cellsize,imsize,phase_center,str(scale[i]),ms1,ms2_inp))
             os.system('rm casa*log')
 
     gmail_emailer(user=user,pwd=pwd,recipient='j.f.radcliffe@rug.nl',subject='CODE %s RUN SUCCESSFULLY - %s' % (os.path.basename(__file__),platform.node()),\

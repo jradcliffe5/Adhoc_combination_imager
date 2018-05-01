@@ -1,18 +1,21 @@
 import os
-name = sys.argv[sys.argv.index('tclean.py')+3]
+name = sys.argv[sys.argv.index('tclean.py')+4]
 cellsize = sys.argv[sys.argv.index('tclean.py')+1]
 imsize = sys.argv[sys.argv.index('tclean.py')+2]
-ms1 = sys.argv[sys.argv.index('tclean.py')+4]
-ms2 = sys.argv[sys.argv.index('tclean.py')+5:]
+phase_center = str(sys.argv[sys.argv.index('tclean.py')+3])
+ms1 = sys.argv[sys.argv.index('tclean.py')+5]
+ms2 = sys.argv[sys.argv.index('tclean.py')+6:]
 
 vis = [ms1] + ms2
 print sys.argv, imsize
 ms2_name = '_'.join([i.split('.ms')[0] for i in ms2])
 
+print phase_center
+
 tclean(vis=vis,selectdata=True,field="",spw="",timerange="",uvrange="",\
 antenna="",scan="",observation="",intent="",datacolumn="data",imagename='%s_%s_%s_1_psf_CASA' % (ms1.split('.ms')[0],name,ms2_name),\
 imsize=[int(imsize),int(imsize)],\
-       cell=[cellsize],phasecenter="",stokes="I",projection="SIN",\
+       cell=[cellsize],phasecenter=phase_center,stokes="I",projection="SIN",\
 startmodel="",specmode="mfs",reffreq="",\
 nchan=-1,start="",width="",outframe="LSRK",veltype="radio",restfreq=[],interpolation="linear" \
 ,gridder="standard",facets=1,chanchunks=1,\
