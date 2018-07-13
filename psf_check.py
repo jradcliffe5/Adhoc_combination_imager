@@ -79,7 +79,7 @@ try:
                 os.system('rm casa*log')
     elif adjust_cellsize == True:
         scale = scale[0]
-        if os.path.exists('%s_%s_%s_1_psf_CASA.psf' % (ms1.split('.ms')[0],cellsize[i],ms2_name)) == False:
+        if os.path.exists('%s_%s_%s_1_psf_CASA.psf' % (ms1.split('.ms')[0],cellsize[0],ms2_name)) == False:
             os.system('rsync -ar --progress %s%s ./' % (path_to_ms1,ms1))
             for file in os.listdir('./'):
                 if file==ms1:
