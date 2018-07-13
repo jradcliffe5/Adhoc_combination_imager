@@ -83,8 +83,8 @@ try:
             os.system('rsync -ar --progress %s%s ./' % (path_to_ms1,ms1))
             for file in os.listdir('./'):
                 if file==ms1:
-                    logging.info('Scaling %s by %.2f' % (ms1,scale[i]))
-                    os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale[i])))
+                    logging.info('Scaling %s by %.2f' % (ms1,scale))
+                    os.system('%scasa --nologger --log2term -c wt_mod_CASAv2.py scale %s %s' % (path_to_casa,file, str(scale)))
         for i in range(len(cellsize)):
             logging.info('Imaging %s (cellsize %s) and %s' % (ms1,cellsize[i],ms2_inp))
             os.system('%smpicasa -n %s %scasa --nologger --log2term -c tclean.py %s %s \'%s\' %s %s %s' % (path_to_casa, ncore, path_to_casa,cellsize[i],imsize,phase_center,scale,ms1,ms2_inp))
