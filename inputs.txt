@@ -9,6 +9,7 @@ ncore = 40
 psf_cell = 0.005 ##psf evaulation cell size [arcsec]
 psf_imsize = 2800 ## psf evaulation imsize [pix]
 phase_center = J2000,12h36m52.638s,+62d16m11.316s
+adjust_cellsize = True
 
 
 ### for concat_ms.py once weighting has been completed
