@@ -60,7 +60,7 @@ try:
             os.system('rsync -ar --progress %s%s ./' % (path_to_ms2,i))
     else:
         os.system('rsync -ar --progress %s%s ./' % (path_to_ms2,ms2))
-
+    '''
     if adjust_cellsize == False:
         cellsize = cellsize[0]
         for i in range(len(scale)):
@@ -89,7 +89,7 @@ try:
 
     else:
         print('Rubbish')
-    
+    '''
     gmail_emailer(user=user,pwd=pwd,recipient='j.f.radcliffe@rug.nl',subject='CODE %s RUN SUCCESSFULLY - %s' % (os.path.basename(__file__),platform.node()),\
     body='The code %s has run successfully on %s. \n Please see %s:%s  for the results.\n\n The logger output of %s is as follows:\n\n %s' % (os.path.basename(__file__),datetime.now() - startTime, platform.node(),os.path.dirname(os.path.realpath(__file__)), log_name, open(log_name,'r').read()))
 
