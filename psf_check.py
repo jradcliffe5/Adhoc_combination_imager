@@ -52,11 +52,8 @@ try:
         cellsize = [str(inputs['psf_cell'])+'arcsec' for i in cellsize]
     else:
         cellsize = [str(inputs['psf_cell'])+'arcsec']
-    print scale
-    cellsize = str(inputs['psf_cell'])+'arcsec'
     imsize = str(int(inputs['psf_imsize']))
     phase_center = ' '.join(inputs['phase_center'].split(','))
-    print phase_center
 
     if len(list(ms2)) > 1:
         for i in ms2:
@@ -92,7 +89,7 @@ try:
 
     else:
         print('Rubbish')
-
+    
     gmail_emailer(user=user,pwd=pwd,recipient='j.f.radcliffe@rug.nl',subject='CODE %s RUN SUCCESSFULLY - %s' % (os.path.basename(__file__),platform.node()),\
     body='The code %s has run successfully on %s. \n Please see %s:%s  for the results.\n\n The logger output of %s is as follows:\n\n %s' % (os.path.basename(__file__),datetime.now() - startTime, platform.node(),os.path.dirname(os.path.realpath(__file__)), log_name, open(log_name,'r').read()))
 
