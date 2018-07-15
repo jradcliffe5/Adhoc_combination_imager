@@ -36,7 +36,6 @@ try:
 		scale = [float(i) for i in scale]
 	else:
 		scale = [float(inputs['scale'])]
-	print scale
 	path_to_ms1 = str(inputs['path_to_ms1'])
 	path_to_ms2 = str(inputs['path_to_ms2'])
 	path_to_casa = str(inputs['path_to_casa'])
@@ -46,7 +45,6 @@ try:
 		ms2 = inputs['ms2'].split(',')
 		ms2_name = '_'.join([i.split('.ms')[0] for i in ms2])
 		ms2_inp = ' '.join(ms2)
-		print ms2_inp
 	else:
 		ms2 = str(inputs['ms2'])
 		ms2name = ms2.split('.ms')[0]
@@ -55,19 +53,17 @@ try:
 	logging.info('Will scale %s by the following scales: %s' % (ms1, scale))
 	if ',' in str(inputs['psf_cell']):
 		cellsize = inputs['psf_cell'].split(',')
-		print cellsize
 		cellsize = ['%sarcsec'%i for i in cellsize]
 	else:
 		cellsize = ['%sarcsec'% inputs['psf_cell']]
 	imsize = str(int(inputs['psf_imsize']))
 	phase_center = ' '.join(inputs['phase_center'].split(','))
-	print cellsize
 	if len(list(ms2)) > 1:
 		for i in ms2:
 			os.system('rsync -ar --progress %s%s ./' % (path_to_ms2,i))
 	else:
 		os.system('rsync -ar --progress %s%s ./' % (path_to_ms2,ms2))
-
+	print adjust_cellsize
 	if adjust_cellsize == False:
 		cellsize = cellsize[0]
 		for i in range(len(scale)):
@@ -91,8 +87,9 @@ try:
 					os.system('%scasa --nologger --log2term -c %swt_mod_CASAv2.py scale %s %s' % (path_to_casa,path_to_py,file, str(scale)))
 		for i in range(len(cellsize)):
 			logging.info('Imaging %s (cellsize %s) and %s' % (ms1,cellsize[i],ms2_inp))
+			print use_CASA
 			if use_CASA == True:
-				os.system('%smpicasa -n %s %scasa --nologger --log2term -c %stclean.py %s %s \'%s\' %s %s %s' % (path_to_casa, ncore, path_to_casa,path_to_py,cellsize[i],imsize,phase_center,scale,ms1,ms2_inp))
+				#os.system('%smpicasa -n %s %scasa --nologger --log2term -c %stclean.py %s %s \'%s\' %s %s %s' % (path_to_casa, ncore, path_to_casa,path_to_py,cellsize[i],imsize,phase_center,scale,ms1,ms2_inp))
 				os.system('rm casa*log')
 			else:
 				ms2_name = '_'.join([i.split('.ms')[0] for i in ms2_inp])
