@@ -92,10 +92,12 @@ try:
 				os.system('%smpicasa -n %s %scasa --nologger --log2term -c %stclean.py %s %s \'%s\' %s %s %s' % (path_to_casa, ncore, path_to_casa,path_to_py,cellsize[i],imsize,phase_center,scale,ms1,ms2_inp))
 				os.system('rm casa*log')
 			else:
-				ms2_name = '_'.join([i.split('.ms')[0] for i in ms2_inp])
-				wsclean_name = '%s_%s_%s_1_psf_WSCLEAN_%s' % (ms1.split('.ms')[0],scale,ms2_name,cellsize)
+				print ms2_inp
+				ms2_name = '_'.join([j.split('.ms')[0] for j in ms2_inp])
+				wsclean_name = '%s_%s_%s_1_psf_WSCLEAN_%s' % (ms1.split('.ms')[0],scale,ms2_name,cellsize[i])
 				print ms2_name, wsclean_name
-				#os.system('%s -j %s -name
+				print '%s -j %s -name %s -weight natural -size %d %d -scale %s -niter 0 %s %s' % (wsclean_loc,ncore,wsclean_name,imsize,imsize,cellsize[i].split('arcsec')[0]+'asec',ms1,ms2_inp)
+				#os.system('%s -j %s -name %s -weight natural -size %d %d -scale %s -niter 0 %s %s' % (wsclean_loc,ncore,wsclean_name,imsize,imsize,cellsize[i].split('arcsec')[0]+'asec',ms1,ms2_inp))
 
 	else:
 		print('Rubbish')
