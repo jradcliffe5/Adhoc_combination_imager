@@ -39,8 +39,8 @@ try:
 	path_to_ms1 = str(inputs['path_to_ms1'])
 	path_to_ms2 = str(inputs['path_to_ms2'])
 	path_to_casa = str(inputs['path_to_casa'])
-	adjust_cellsize = bool(inputs['adjust_cellsize'])
-	use_CASA = bool(inputs['use_CASA'])
+	adjust_cellsize = str(inputs['adjust_cellsize'])
+	use_CASA = str(inputs['use_CASA'])
 	if ',' in str(inputs['ms2']):
 		ms2 = inputs['ms2'].split(',')
 		ms2_name = '_'.join([i.split('.ms')[0] for i in ms2])
@@ -77,7 +77,7 @@ try:
 				logging.info('Imaging %s (scale %.2f) and %s' % (ms1,scale[i],ms2_inp))
 				os.system('%smpicasa -n %s %scasa --nologger --log2term -c %stclean.py %s %s \'%s\' %s %s %s' % (path_to_casa, ncore, path_to_casa,path_to_py,cellsize,imsize,phase_center,str(scale[i]),ms1,ms2_inp))
 				os.system('rm casa*log')
-	elif adjust_cellsize == True:
+	elif adjust_cellsize == 'True':
 		scale = scale[0]
 		if os.path.exists('%s_%s_%s_1_psf_CASA.psf' % (ms1.split('.ms')[0],cellsize[0],ms2_name)) == False:
 			os.system('rsync -ar --progress %s%s ./' % (path_to_ms1,ms1))
@@ -88,7 +88,7 @@ try:
 		for i in range(len(cellsize)):
 			logging.info('Imaging %s (cellsize %s) and %s' % (ms1,cellsize[i],ms2_inp))
 			print use_CASA
-			if use_CASA == True:
+			if use_CASA == 'True':
 				#os.system('%smpicasa -n %s %scasa --nologger --log2term -c %stclean.py %s %s \'%s\' %s %s %s' % (path_to_casa, ncore, path_to_casa,path_to_py,cellsize[i],imsize,phase_center,scale,ms1,ms2_inp))
 				os.system('rm casa*log')
 			else:
