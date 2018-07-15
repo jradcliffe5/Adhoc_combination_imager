@@ -93,7 +93,8 @@ try:
 				os.system('rm casa*log')
 			else:
 				print ms2_inp
-				ms2_name = '_'.join([j.split('.ms')[0] for j in ms2_inp])
+				ms2_name = ms2_inp.split(' ')
+				ms2_name = '_'.join([j.split('.ms')[0] for j in ms2_name])
 				wsclean_name = '%s_%s_%s_1_psf_WSCLEAN_%s' % (ms1.split('.ms')[0],scale,ms2_name,cellsize[i])
 				print ms2_name, wsclean_name
 				print '%s -j %s -name %s -weight natural -size %d %d -scale %s -niter 0 %s %s' % (wsclean_loc,ncore,wsclean_name,imsize,imsize,cellsize[i].split('arcsec')[0]+'asec',ms1,ms2_inp)
