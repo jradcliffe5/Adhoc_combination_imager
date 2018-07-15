@@ -89,11 +89,11 @@ try:
 			logging.info('Imaging %s (cellsize %s) and %s' % (ms1,cellsize[i],ms2_inp))
 			print use_CASA
 			if use_CASA == 'True':
-				#os.system('%smpicasa -n %s %scasa --nologger --log2term -c %stclean.py %s %s \'%s\' %s %s %s' % (path_to_casa, ncore, path_to_casa,path_to_py,cellsize[i],imsize,phase_center,scale,ms1,ms2_inp))
+				os.system('%smpicasa -n %s %scasa --nologger --log2term -c %stclean.py %s %s \'%s\' %s %s %s' % (path_to_casa, ncore, path_to_casa,path_to_py,cellsize[i],imsize,phase_center,scale,ms1,ms2_inp))
 				os.system('rm casa*log')
 			else:
 				ms2_name = '_'.join([i.split('.ms')[0] for i in ms2_inp])
-				wsclean_name = '%s_%s_%s_1_psf_WSCLEAN_%s' % (ms1.split('.ms')[0],name,ms2_name,cellsize)
+				wsclean_name = '%s_%s_%s_1_psf_WSCLEAN_%s' % (ms1.split('.ms')[0],scale,ms2_name,cellsize)
 				print ms2_name, wsclean_name
 				#os.system('%s -j %s -name
 
