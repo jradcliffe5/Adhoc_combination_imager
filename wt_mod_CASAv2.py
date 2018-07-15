@@ -19,9 +19,9 @@ tb.open(msfile2,nomodify=False)
 msfile2_wt_sum = np.sum(tb.getcol('WEIGHT_SPECTRUM'))
 '''
 print sys.argv
-mode = sys.argv[sys.argv.index('wt_mod_CASAv2.py')+1]
-theconcatvis = sys.argv[sys.argv.index('wt_mod_CASAv2.py')+2]
-scaler = float(sys.argv[sys.argv.index('wt_mod_CASAv2.py')+3])
+mode = sys.argv[sys.argv.index(sys.argv[2])+1]
+theconcatvis = sys.argv[sys.argv.index(sys.argv[2])+2]
+scaler = float(sys.argv[sys.argv.index(sys.argv[2])+3])
 
 if mode =='scale':
 	wscale = scaler
